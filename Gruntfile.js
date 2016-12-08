@@ -43,6 +43,19 @@ module.exports = function(grunt) {
           //debug: true,
           open: true
         }
+      },
+      phtml: {
+        options: {
+          hostname: '127.0.0.1',
+          port: 8080,
+          /* set your html path here */
+          base: ['app','html'],
+          keepalive: false,
+          /* port for livereload.js */
+          livereload: 1337,
+          //debug: true,
+          open: true
+        }
       }
     },
     php: {
@@ -52,6 +65,15 @@ module.exports = function(grunt) {
                 /* set your php path here */
                 base: 'app',
                 keepalive: true
+            }
+        },
+        phtml: {
+            options: {
+                port: 8090,
+                /* set your php path here */
+                base: 'app',
+                keepalive: false,
+                router: 'app/XDomRouter.php'
             }
         }
     }
@@ -68,8 +90,9 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['uglify']);
-  grunt.registerTask('serve', ['connect']);
-  grunt.registerTask('serve-live', ['connect', 'watch']);
-  grunt.registerTask('serve-php', ['php']);
+  grunt.registerTask('serve', ['connect:html']);
+  grunt.registerTask('serve-html', ['connect:html', 'watch']);
+  grunt.registerTask('serve-php', ['php:dist']);
+  grunt.registerTask('serve-phtml', ['php:phtml', 'connect:phtml', 'watch']);
 
 };
